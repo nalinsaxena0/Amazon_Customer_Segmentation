@@ -35,7 +35,7 @@ personalized_recommendation_fy				NVARCHAR(500),
 recommendation_helpfullness					NVARCHAR(500),
 rating_accuracy								NVARCHAR(500),
 shopping_satisfaction						NVARCHAR(500),
-service_appreciation						Nvarchar(500),
+service_appreciation						NVARCHAR(500),
 improvment_areas							NVARCHAR(500)
 );
 GO
