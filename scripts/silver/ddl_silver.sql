@@ -41,7 +41,7 @@ personalized_recommendation_fy			NVARCHAR(50) NULL,
 
 rating_accuracy							INT NULL,
 shopping_satisfaction					INT NULL,
-service_appreciation					INT NULL,
+service_appreciation					NVARCHAR(100) NULL,
 
 improvement_areas						NVARCHAR(MAX) NULL
 );
