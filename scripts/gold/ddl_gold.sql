@@ -62,3 +62,70 @@ SELECT
 	personalized_recommendation_fy AS recommendation_helpfulness
 FROM silver.cst_behaviour;
 GO
+
+-- Creating VIEW gold.dim_cart_behaviour
+CREATE OR ALTER VIEW gold.dim_cart_behavior AS
+SELECT 
+    customer_id,
+    add_to_cart_browsing,
+    cart_completion_frequency,
+    cart_abandonment_factors,
+    save_for_later_frequency
+FROM silver.cst_behaviour;
+GO
+
+--Creating VIEW gold.dim_satisfaction
+CREATE OR ALTER VIEW gold.dim_satisfaction AS
+SELECT 
+    customer_id,
+    rating_accuracy,
+    shopping_satisfaction,
+    service_appreciation
+FROM silver.cst_behaviour;
+GO
+
+-- Creating VIEW gold.fact_customer_behaviour
+CREATE OR ALTER VIEW gold.fact_customer_behavior AS
+SELECT
+    c.customer_id,
+
+    -- Foreign Keys (dimension linking)
+    c.age_group,
+    c.gender,
+
+    pb.purchase_frequency,
+    pb.purchase_categories,
+    pb.personalized_recommendation_frequency,
+
+    bb.browsing_frequency,
+    bb.product_search_method,
+    bb.search_result_exploration,
+
+    rb.review_left,
+    rb.review_helpfullness,
+    rb.recommendation_helpfulness,
+
+    cb.add_to_cart_browsing,
+    cb.cart_completion_frequency,
+    cb.cart_abandonment_factors,
+
+    s.rating_accuracy,
+    s.shopping_satisfaction,
+    s.service_appreciation,
+
+    -- Measures for segmentation
+    pb.customer_reviews_importance
+
+FROM gold.dim_customer c
+LEFT JOIN gold.dim_purchase_behaviour pb 
+ON pb.customer_id = c.customer_id
+LEFT JOIN gold.dim_browsing_behaviour bb 
+ON bb.customer_id = c.customer_id
+LEFT JOIN gold.dim_review_behaviour rb 
+ON rb.customer_id = c.customer_id
+LEFT JOIN gold.dim_cart_behavior cb 
+ON cb.customer_id = c.customer_id
+LEFT JOIN gold.dim_satisfaction s 
+ON s.customer_id = c.customer_id;
+GO
+
